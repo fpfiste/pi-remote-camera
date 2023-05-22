@@ -1,0 +1,11 @@
+version: "3"
+services:
+  web:
+    build: .
+    ports:
+      - "2204:2204"
+      - "5000:5000"
+    volumes:
+      - .:/code
+    devices:
+    - '/dev/video0:/dev/video0'
