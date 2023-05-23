@@ -1,10 +1,10 @@
 from flask import Flask, Response, render_template
 import cv2
-
+import datetime as dt
 app = Flask(__name__)
 video = cv2.VideoCapture(0)
-video.set(3, 800)
-video.set(4, 800)
+video.set(3, 1400)
+video.set(4, 1400)
 
 @app.route('/')
 def index():
@@ -28,6 +28,14 @@ def video_feed():
     global video
     return Response(gen(video),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/snap', methods=['POST'])
+def snap():
+    ret, frame = video.read()
+    ts = dt.datetime.now()
+
+    out = cv2.imwrite(f'../images/{str(ts)}.jpg', frame)
+    return render_template('index.html')
 
 
 if __name__ == '__main__':

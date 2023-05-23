@@ -7,6 +7,6 @@ services:
       - "5000:5000"
     volumes:
       - .:/code
-      - ~/Pictures:/Pictures
+      - ../images:/images
     devices:
     - '/dev/video0:/dev/video0'
