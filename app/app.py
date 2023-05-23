@@ -1,12 +1,14 @@
-from flask import Flask, Response
+from flask import Flask, Response, render_template
 import cv2
 
 app = Flask(__name__)
 video = cv2.VideoCapture(0)
+video.set(3, 800)
+video.set(4, 800)
 
 @app.route('/')
 def index():
-    return "Default Message"
+    return render_template('index.html')
 
 
 def gen(video):
