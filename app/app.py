@@ -1,41 +1,60 @@
-from flask import Flask, Response, render_template
 import cv2
-import datetime as dt
+from flask import Flask, Response, render_template, jsonify, request
+from cam import Camera
+
 app = Flask(__name__)
+
 video = cv2.VideoCapture(0)
-video.set(3, 1400)
-video.set(4, 1400)
+cam = Camera(video)
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
 
-def gen(video):
-    while True:
-        success, image = video.read()
-
-        ret, jpeg = cv2.imencode('.jpg', image)
-
-        frame = jpeg.tobytes()
-
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-
-
 @app.route('/video_feed')
 def video_feed():
-    global video
-    return Response(gen(video),
+    global cam
+    return Response(cam.stream(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+@app.route('/zoom_in', methods=['POST'])
+def zoom_in():
+    if cam.zoom < 10:
+        cam.zoom += 0.1
+    data = {'zoom': cam.zoom}
+    return  jsonify(data)
 
-@app.route('/snap', methods=['POST'])
-def snap():
-    ret, frame = video.read()
-    ts = dt.datetime.now()
 
-    out = cv2.imwrite(f'../images/{str(ts)}.jpg', frame)
+@app.route('/zoom_out', methods=['POST'])
+def zoom_out():
+    if cam.zoom > 1:
+        cam.zoom -= 0.1
+    data = {'zoom':cam.zoom}
+    return  jsonify(data)
+
+@app.route('/mv_left', methods=['POST'])
+def mv_left():
+    if cam.zoom > 1:
+        cam.x -= 1
+    data = {'zoom':cam.zoom}
+    return  jsonify(data)
+
+@app.route('/mv_right', methods=['POST'])
+def mv_right():
+    if cam.zoom < cam.width:
+        cam.x += 1
+    data = {'zoom':cam.zoom}
+    return  jsonify(data)
+
+
+@app.route('/capture', methods=['POST'])
+def capture():
+    cam.capture()
     return render_template('index.html')
+
+
+
 
 
 if __name__ == '__main__':

@@ -3,7 +3,7 @@
 FROM python:3.8-slim-buster
 
 WORKDIR /code
-
+ENV FLASK_DEBUG=1
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libopencv-dev \
     python3-opencv \
