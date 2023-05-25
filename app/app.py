@@ -35,18 +35,32 @@ def zoom_out():
 
 @app.route('/mv_left', methods=['POST'])
 def mv_left():
-    if cam.zoom > 1:
-        cam.x -= 1
-    data = {'zoom':cam.zoom}
+    if cam.x > 50:
+        cam.x -= 50
+    data = {'zoom':cam.x}
     return  jsonify(data)
 
 @app.route('/mv_right', methods=['POST'])
 def mv_right():
-    if cam.zoom < cam.width:
-        cam.x += 1
-    data = {'zoom':cam.zoom}
+    if cam.x < (cam.width - 50):
+        cam.x += 50
+    data = {'zoom':cam.x}
     return  jsonify(data)
 
+
+@app.route('/mv_up', methods=['POST'])
+def mv_up():
+    if cam.y > 50:
+        cam.y -= 50
+    data = {'zoom':cam.y}
+    return  jsonify(data)
+
+@app.route('/mv_down', methods=['POST'])
+def mv_down():
+    if cam.y < (cam.height-50):
+        cam.y += 50
+    data = {'zoom':cam.y}
+    return  jsonify(data)
 
 @app.route('/capture', methods=['POST'])
 def capture():

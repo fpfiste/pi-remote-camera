@@ -64,6 +64,19 @@
              console.log(result.zoom)
           })
         });
+
+        $("#mv_up").on("click", function(){
+          $.post(window.location.origin + '/mv_up', {}, function(result){
+             console.log(result.zoom)
+          })
+        });
+
+
+        $("#mv_down").on("click", function(){
+          $.post(window.location.origin + '/mv_down', {}, function(result){
+             console.log(result.zoom)
+          })
+        });
       });
     </script> 
 
