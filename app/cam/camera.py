@@ -6,7 +6,6 @@ import datetime as dt
 class Camera():
     def __init__(self, video):
         self.cam = video
-        print('here')
         self.width, self.height = (1400, 1400)
         self.cam.set(3, self.width)
         self.cam.set(4, self.height)
@@ -26,7 +25,6 @@ class Camera():
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
     def zoom_in(self, img):
-        print(self.x)
         rot_mat = cv2.getRotationMatrix2D((self.x, self.y), 0, self.zoom)
         result = cv2.warpAffine(img, rot_mat, img.shape[1::-1], flags=cv2.INTER_LINEAR)
 
@@ -54,11 +52,11 @@ class Camera():
     #
     #     return img
 
-    def capture(self):
+    def capture(self, path):
         ret, frame = self.cam.read()
         ts = dt.datetime.now()
 
-        out = cv2.imwrite(f'../images/{str(ts)}.jpg', frame)
+        out = cv2.imwrite(path, frame)
 
         return out
 

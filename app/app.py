@@ -1,7 +1,9 @@
-import cv2
-from flask import Flask, Response, render_template, jsonify, request
-from cam import Camera
+import os
 
+import cv2
+from flask import Flask, Response, render_template, jsonify, request, make_response
+from cam import Camera
+import datetime as dt
 app = Flask(__name__)
 
 video = cv2.VideoCapture(0)
@@ -64,11 +66,34 @@ def mv_down():
 
 @app.route('/capture', methods=['POST'])
 def capture():
-    cam.capture()
-    return render_template('index.html')
+    project = request.cookies.get('project')
+
+    path = os.path.join('../images', project, str(dt.datetime.now()) + '.jpg')
+    print(path)
+    cam.capture(path)
+    return  jsonify({'data': path})
 
 
+@app.route('/list_projects')
+def list_projects():
+    project = os.listdir('../images')
+    return jsonify({'data': project })
 
+
+@app.route('/set_project',  methods=['POST'])
+def set_project():
+    project = request.form.get('projectname')
+    project_folder = os.path.join('../images', project)
+
+    if not os.path.exists(project_folder):
+        os.mkdir(project_folder)
+
+    resp = make_response()
+    resp.set_cookie('project', project)
+
+    return resp
+
+    return jsonify({'data': project })
 
 
 if __name__ == '__main__':
