@@ -1,6 +1,4 @@
-import PIL
 import cv2
-from PIL.Image import Image
 import datetime as dt
 
 class Camera():
