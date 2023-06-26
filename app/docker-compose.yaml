@@ -5,8 +5,10 @@ services:
     ports:
       - "2204:2204"
       - "5000:5000"
+      - "7007:7007"
     volumes:
       - .:/files
       - ../images:/images
     devices:
-    - '/dev/video0:/dev/video0'
+    - '/dev/:/dev/'
+    privileged: true

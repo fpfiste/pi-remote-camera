@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>Remote Camera</title>
@@ -8,110 +9,89 @@
       <link rel="stylesheet" href='/static/css/sidebar.css' />
   </head>
   <body>
-
-
-  <div id="sidenav" class="sidenav" data-is-open="true">
-      <a href="#camera"><span class="control-icon" id="camera"><i class="fa-solid fa-camera"></i> <span class="nav-item-text">Camera</span></span></a>
-      <a href="#gallery"><span class="control-icon" id="images"><i class="fa-solid fa-image"></i> <span class="nav-item-text">Gallery</span></span></a>
-    </div>
-
-
-  <nav class="navbar navbar-light bg-light">
-  <div class="container-fluid">
-     <span id="sidebar-toggle" style="font-size:30px;cursor:pointer" onclick="toggleNav()">&#9776;</span>
-    <div>
-         <input type="text" id="project" onKeyUp="getProjects()" list="projectname">
-      <datalist id="projectname">
-      </datalist>
-
-    <button type="button" onclick="setProjects()" class="btn btn-danger">Select Project</button>
-
-    </div>
-
-
-
+  <div class="content">
+  <div class="thumbnails-container">
+    <!--
+    <ul class="thumbnails-list">
+      <li class="thumbnail-element thumbnail-element-stream"><img src="/static/placeholder.png" class="stream_thumbnail"></li>
+      <li class="thumbnail-element"><img src="/static/images/2023-06-17 14:07:30.449372.jpg" class="thumbnail"></li>
+      <li class="thumbnail-element"><img src="/static/images/2023-06-17 14:07:30.449372.jpg" class="thumbnail"></li>
+      <li class="thumbnail-element"><img src="/static/images/2023-06-17 14:07:30.449372.jpg" class="thumbnail"></li>
+      <li class="thumbnail-element"><img src="/static/images/2023-06-17 14:07:30.449372.jpg" class="thumbnail"></li>
+    </ul>-->
   </div>
-</nav>
-
-  <div id="main">
-
-
-    <div class="container-fluid" style="height:70%;">
-      <div class="row" id="stream" style="height:100%;">
-        <div class="overlay-container">
-            <img src="{{ url_for('video_feed') }}" class="image">
-          <div class="overlay">
-          <span class="control-icon" id="capture"><i class="fa-solid fa-camera fa-3x"></i></span>
-          <span class="control-icon" id="zoom_in"><i class="fa-solid fa-magnifying-glass-plus fa-3x"></i></span>
-          <span class="control-icon" id="zoom_out"><i class="fa-solid fa-magnifying-glass-minus fa-3x"></i></span>
-          <span class="control-icon" id="mv_left"><i class="fa-solid fa-chevron-left fa-3x"></i></span>
-          <span class="control-icon" id="mv_right"><i class="fa-solid fa-chevron-right fa-3x"></i></span>
-          <span class="control-icon" id="mv_up"><i class="fa-solid fa-chevron-up fa-3x"></i></span>
-          <span class="control-icon" id="mv_down"><i class="fa-solid fa-chevron-down fa-3x"></i></span>
-          </div>
-        </div>
-
-
-      </div>
-    </div>
+  <div class="stream-container">
+    <img src="{{ url_for('video_feed') }}" class="stream-frame">ss
+    <ul class="camera-control">
+        <li class="camera-control-element" id="capture"><img src="/static/control_icons/camera.svg" class="camera-control-button"></li>
+        <li class="camera-control-element" id="zoom_in"><img src="/static/control_icons/zoom_in.svg" class="camera-control-button"></li>
+        <li class="camera-control-element" id="zoom_out"><img src="/static/control_icons/zoom_out.svg" class="camera-control-button"></li>
+        <li class="camera-control-element"><img src="/static/control_icons/left.svg" class="camera-control-button"></li>
+        <li class="camera-control-element"><img src="/static/control_icons/right.svg" class="camera-control-button"></li>
+        <li class="camera-control-element"><img src="/static/control_icons/trash.svg" class="camera-control-button"></li>
+    </ul>
   </div>
+  
+  
 
 
 
-    <script src="https://kit.fontawesome.com/398fba641d.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="/static/js/sidebar.js"></script>
-    <script src="/static/js/header.js"></script>
-    <script>
-      $(document).ready(function(){
-        const capture_url = window.location.origin + '/capture'
-        const zoom_in_url = window.location.origin + '/zoom_in'
-        const zoom_out_url = window.location.origin + '/zoom_out'
-
-        $("#capture").on("click", function(){
-          $.post(capture_url, {}, function(result){
-              alert('Stored in: ' + result.data)
-          })
-        });
-
-        $("#zoom_in").on("click", function(){
-          $.post(zoom_in_url, {}, function(result){
-             console.log(result.zoom)
-          })
-        });
-
-        $("#zoom_out").on("click", function(){
-          $.post(zoom_out_url, {}, function(result){
-             console.log(result.zoom)
-          })
-        });
-
-        $("#mv_left").on("click", function(){
-          $.post(window.location.origin + '/mv_left', {}, function(result){
-             console.log(result.zoom)
-          })
-        });
-        $("#mv_right").on("click", function(){
-          $.post(window.location.origin + '/mv_right', {}, function(result){
-             console.log(result.zoom)
-          })
-        });
-
-        $("#mv_up").on("click", function(){
-          $.post(window.location.origin + '/mv_up', {}, function(result){
-             console.log(result.zoom)
-          })
-        });
 
 
-        $("#mv_down").on("click", function(){
-          $.post(window.location.origin + '/mv_down', {}, function(result){
-             console.log(result.zoom)
-          })
-        });
+
+
+  
+  
+  </div>  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+  <script>
+    $(document).ready(function(){
+      const capture_url = window.location.origin + '/capture'
+      const zoom_in_url = window.location.origin + '/zoom_in'
+      const zoom_out_url = window.location.origin + '/zoom_out'
+      /*
+      $.get('list_images', {}, function(result){
+            alert('Stored in: ' + result.data)
+            $('.thumbnails-container').append('<ul class="thumbnails-list"></ul>')
+            console.log(result.data)
+            $('.thumbnails-list').append('<li class="thumbnail-element thumbnail-element-stream"><img src="/static/placeholder.png" class="stream_thumbnail"></li>')
+
+            $.each(result.data, (index, item) => {
+              $('.thumbnails-list').append('<li class="thumbnail-element"><img src="'+ item +'" class="thumbnail"></li>')
+            });
+      })*/
+
+      $("#capture").on("click", function(){
+        console.log(capture_url)
+        $.post(capture_url, {}, function(result){
+            alert('Stored in: ' + result.data)
+        })
       });
-    </script>
 
-  </body>
+      $("#zoom_in").on("click", function(){
+        $.post(zoom_in_url, {}, function(result){
+           console.log(result.zoom)
+        })
+      });
+
+      $("#zoom_out").on("click", function(){
+        $.post(zoom_out_url, {}, function(result){
+           console.log(result.zoom)
+        })
+      });
+    });
+  </script>
+
+
+</body>
+
+
 </html>
+
+

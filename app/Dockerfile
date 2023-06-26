@@ -1,15 +1,27 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.8-slim-buster
+FROM balenalib/raspberry-pi-debian:latest
 
 WORKDIR /files
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libopencv-dev \
-    python3-opencv \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update 
+RUN apt-get upgrade
+
+
+RUN apt-get install libcamera-dev libcamera-apps-lite v4l-utils
+RUN apt-get install python3 python3-pip python3-opencv python3-picamera2
+
+
+
 
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+COPY start.sh ./
+
+RUN chmod +x start.sh
+
+RUN usermod -a -G video root
+
+ENV UDEV=on
+
+CMD ["sh","./start.sh"]
