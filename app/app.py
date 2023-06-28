@@ -11,7 +11,7 @@ app = Flask(__name__)
 cam = Camera()
 
 parent_path = os.path.dirname(os.path.abspath(__file__))
-image_path = os.path.join(parent_path, 'images')
+image_path = os.path.join(parent_path, 'static', 'images')
 
 if not os.path.exists(image_path):
     os.mkdir(image_path)
@@ -21,11 +21,9 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/video_feed/', methods=['GET'])
+@app.route('/video_feed', methods=['GET'])
 def video_feed():
-    print('here')
-    frame = cam.stream()
-  
+    global cam
     return Response(cam.stream(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
@@ -53,7 +51,14 @@ def capture():
     cam.capture(path)
     return  jsonify({'data': path})
 
+@app.route('/list_images', methods=['GET'])
+def list_images():
+    files = os.listdir(image_path)
 
+    files = [os.path.join('/static/images', i) for i in files]
+    print(files)
+    data = {'data':files}
+    return jsonify(data)
 
 
 if __name__ == '__main__':
