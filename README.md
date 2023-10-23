@@ -28,7 +28,7 @@ cd pi-remote-camera
 docker-compose up -d
 ```
 ## Usage
-1. Access the web interface by opening a web browser and navigating to http://your-pi-ip-address:5000.
+1. Access the web interface by opening a web browser and navigating to http://your-pi-ip-address:7007.
 2. Navigate to the camera control section to remotely capture photos.
 3. Captured photos are saved and displayed in the photo gallery.
 4. In the gallery, you can view and delete images as needed.
