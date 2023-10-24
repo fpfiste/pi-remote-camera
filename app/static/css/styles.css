@@ -1,5 +1,8 @@
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7257167 (add app)
 .content{
   width: 100vw;
   height: 100vh;
@@ -16,7 +19,11 @@
   /*! padding: 10px; */
   overflow:auto;
   padding-right: 10px;
+<<<<<<< HEAD
   width: 400px;
+=======
+  max-width: 400px;
+>>>>>>> 7257167 (add app)
 }
 
 .thumbnails-list{
@@ -79,9 +86,16 @@
 .camera-control{
   position: absolute;
   list-style: none;
+<<<<<<< HEAD
   bottom: 30px;
   right: 60px;
 
+=======
+  bottom: 30;
+  right: 60;
+  /*! margin-left: 10vw; */
+  top: 50;
+>>>>>>> 7257167 (add app)
 }
 
 .camera-control-element{
