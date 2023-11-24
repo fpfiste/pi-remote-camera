@@ -1,16 +1,8 @@
 # syntax=docker/dockerfile:1
 
-<<<<<<< HEAD
-FROM balenalib/raspberry-pi-debian:latest
-=======
-FROM python:3.11-slim-bullseye
-RUN apt-get install -y git
-RUN git clone https://git.libcamera.org/libcamera/libcamera.git
-RUN cd libcamera
-RUN meson setup build
-RUN ninja -C build install
 
->>>>>>> 7257167 (add app)
+FROM balenalib/raspberry-pi-debian:latest
+
 
 WORKDIR /files
 RUN apt-get update 

@@ -5,14 +5,17 @@ from picamera2 import Picamera2
 class Camera():
     def __init__(self):
         self.cam = Picamera2()
-        self.width, self.height = (1920, 1080)
-        self.cam.configure(self.cam.create_video_configuration({"size": (self.width, self.height)}))
+        self.width, self.height = (4608, 2592)
+        self.stream_config = self.cam.create_video_configuration({'format': 'RGB888',"size": (1920, 1080)})
+        self.capture_config = self.cam.create_video_configuration({'format': 'RGB888',"size": (4608, 2592)})
+        self.cam.configure(self.stream_config)
         self.cam.start()
 
         self.zoom = 1
 
 
     def stream(self):
+        
         while True:
             image = self.cam.capture_array('main')
         
@@ -30,7 +33,9 @@ class Camera():
         return result
 
     def capture(self, path):
-        frame = self.cam.capture_array()
+        self.cam.switch_mode(self.capture_config)
+        frame = self.cam.capture_array('main')
+        self.cam.switch_mode(self.stream_config)
         out = cv2.imwrite(path, frame)
 
         return out

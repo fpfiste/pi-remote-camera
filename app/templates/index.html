@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,51 +8,163 @@
   </head>
   <body>
   <div class="content">
-    <div class="thumbnails-container"></div>
+      <div class="row">
+        <div class="thumbnails-container"></div>
+          <div class="stream-container">
+            <img src="{{ url_for('video_feed') }}" class="stream-frame">
+          </div>
 
-<!--
-    <ul class="thumbnails-list">
-      <li class="thumbnail-element thumbnail-element-stream"><img src="/static/control_icons/camera.svg" class="stream_thumbnail"></li>
-      <li class="thumbnail-element"><img src="/static/images/2023-06-17 14:07:30.449372.jpg" class="thumbnail"></li>
-      <li class="thumbnail-element"><img src="/static/images/2023-06-17 14:07:30.449372.jpg" class="thumbnail"></li>
-      <li class="thumbnail-element"><img src="/static/images/2023-06-17 14:07:30.449372.jpg" class="thumbnail"></li>
-      <li class="thumbnail-element"><img src="/static/images/2023-06-17 14:07:30.449372.jpg" class="thumbnail"></li>
-    </ul>
-  </div>-->
-  <div class="stream-container">
-    <img src="{{ url_for('video_feed') }}" class="stream-frame">
-    <ul class="camera-control">
-        <li class="camera-control-element" id="capture"><img src="/static/control_icons/camera.svg" class="camera-control-button"></li>
-        <li class="camera-control-element" id="zoom_in"><img src="/static/control_icons/zoom_in.svg" class="camera-control-button"></li>
-        <li class="camera-control-element" id="zoom_out"><img src="/static/control_icons/zoom_out.svg" class="camera-control-button"></li>
-        <li class="camera-control-element"><img src="/static/control_icons/left.svg" class="camera-control-button"></li>
-        <li class="camera-control-element"><img src="/static/control_icons/right.svg" class="camera-control-button"></li>
-        <li class="camera-control-element"><img src="/static/control_icons/trash.svg" class="camera-control-button"></li>
-    </ul>
-  </div>
+          <div id="controls-container">
+            <div id="camera-control">
+              <div id="controls">
+                <ul style="list-style:None;">
+                  <li>
+                    <div class="mb-3">
+                      <button type="button" id="capture" class="btn btn-light"><img src="/static/control_icons/camera.svg" class="camera-control-button"></button>
+                      <label for="capture" class="form-label">Capture</label>
+                  </div>
+                  </li>
+                  <li>
+                    <div class="mb-3">    
+                      <button type="button" id="delete" class="btn btn-light"><img src="/static/control_icons/trash.svg" class="camera-control-button"></button>
+                      <label for="delete" class="form-label">Delete</label>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="mb-3">
+                      <button type="button" id="zoom_in" class="btn btn-light"><img src="/static/control_icons/zoom_in.svg" class="camera-control-button"></button>
+                      <label for="zoom_in" class="form-label">Zoom in</label>                    
+                    </div>
+                  </li>
+                  <li>
+                    <div class="mb-3">
+                      <button type="button" id="zoom_out" class="btn btn-light"><img src="/static/control_icons/zoom_out.svg" class="camera-control-button"></button>
+                      <label for="zoom_out" class="form-label">Zoom out</label>
+                    </div>
+                  </li>
+
+                </ul>
+               
+
+
+
+
+
+
+
+
+              
+
+              </div>
+
+            </div>
+            <div id="target-sampler" class="row" width="20vw" height="45vh">
+              
+            </div>
+            
+        </div>
+      </div>
+    </div>
+
+    
+
+
+
+
   
   
-
-
-
-
-
-
-
   
-  
-  </div>  
-
-
-
-
+   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-
   <script>
+      function target_generator() {
+
+        $('#target-sampler').empty()
+        let parent_width = $('#target-sampler').width()
+        let parent_height = $('#target-sampler').height()
+
+        let canvas_dim = Math.min([parent_width, parent_height])
+
+        let canvas_html = '<canvas id="target-canvas" width='+parent_height+' height='+parent_height+'></canvas>'
+        $('#target-sampler').append(canvas_html)
+
+        let dartboard_image_html = '<img id="target-board" src="/static/dartboard.jpg">'
+        $('#controls-container').append(dartboard_image_html)
+        
+        let canvas = document.getElementById('target-canvas').getContext("2d")
+
+        $('#target-canvas').height(canvas.canvas.width)
+
+        let image = document.getElementById('target-board')
+
+
+
+        image.addEventListener("load", (e) => {
+          
+          canvas.drawImage(image, 0, 0, canvas.canvas.width, canvas.canvas.width);
+          $('#target-board').remove()
 
           
-  
+          let x_coor = 0
+          let y_coor = 0
+
+          // get max distance
+          var max_x_dist = Math.abs(x_coor - (canvas.canvas.width / 2))
+          var max_y_dist = y_coor
+          var max_distance = Math.sqrt( max_x_dist*max_x_dist + max_y_dist*max_y_dist );
+
+          let actual_distance = max_distance + 1
+
+
+          while ( actual_distance >= max_distance) {
+            x_coor = Math.floor(Math.random() * (canvas.canvas.width - 0 + 1) );
+            y_coor = Math.floor(Math.random() * (canvas.canvas.height - 0 + 1) );
+            
+            
+            // get actual distance
+            let actual_x_dist = Math.abs(x_coor - (canvas.canvas.width / 2))
+            let actual_y_dist = Math.abs(y_coor - (canvas.canvas.height / 2))
+            actual_distance = Math.sqrt( actual_x_dist*actual_x_dist + actual_y_dist*actual_y_dist );
+          } 
+
+        canvas.fillStyle = "lightblue";
+        canvas.beginPath();
+        canvas.arc(x_coor,y_coor,15,0,2*Math.PI);
+        canvas.fill();
+
+        });
+
+        $('#target-board').remove()
+
+ 
+
+      }
+
+      function thumbnails_build() {
+        $('.thumbnails-list').remove();
+        $.get('list_images', {}, function(result){
+            $('.thumbnails-container').append('<ul class="thumbnails-list"></ul>')
+            $('.thumbnails-list').append('<li class="thumbnail-element thumbnail-element-stream"><div id="stream_thumbnail" class="thumbnail thumbnail_active"><img src="/static/control_icons/camera.svg" class="stream_thumbnail"></div></li>')
+            $.each(result.data, (index, item) => {
+              $('.thumbnails-list').append('<li class="thumbnail-element"><img src="'+ item +'" class="thumbnail"></li>')
+        })
+
+
+        $('.thumbnail, .stream_thumbnail').on( "click", function() {
+
+          $('.thumbnail, .stream_thumbnail').removeClass('thumbnail_active')
+          $(this).addClass('thumbnail_active')
+          url = $(this).attr('src')
+          console.log($(this))
+          if (url == '/static/control_icons/camera.svg') {
+            url = '/video_feed';
+          } 
+
+            $('.stream-frame').attr('src', url);
+        });
+      })
+      }
 
 
     $(document).ready(function(){
@@ -61,149 +172,45 @@
       const zoom_in_url = window.location.origin + '/zoom_in'
       const zoom_out_url = window.location.origin + '/zoom_out'
 
-      function thumbnails_build() {
-        $('.thumbnails-list').remove();
-        $.get('list_images', {}, function(result){
-            $('.thumbnails-container').append('<ul class="thumbnails-list"></ul>')
-            console.log(result.data)
-            $('.thumbnails-list').append('<li class="thumbnail-element thumbnail-element-stream"><img src="/static/control_icons/camera.svg" class="stream_thumbnail"></li>')
-
-            $.each(result.data, (index, item) => {
-              $('.thumbnails-list').append('<li class="thumbnail-element"><img src="'+ item +'" class="thumbnail"></li>')
-            })
-
-            $('.thumbnail, .stream_thumbnail').on( "click", function() {
-        
-                url = $(this).attr('src')
-
-                if (url === '/static/control_icons/camera.svg') {
-                  url = 'video_feed'
-
-                }
-                console.log(url)
-                $('.stream-frame').attr('src', url);
-            });
-          })
 
 
-      }
 
+      
+     
       thumbnails_build();
 
+      
+      target_generator();
+      
+      
+
       $("#capture").on("click", function(){
-        console.log(capture_url)
         $.post(capture_url, {}, function(result){
-          
+          location.reload();
         })
-        thumbnails_build();
-=======
-<body cz-shortcut-listen="true">
-    <div class="content">
-    <div class="thumbnails-container">
-      <!--
-      <ul class="thumbnails-list">
-        <li class="thumbnail-element thumbnail-element-stream"><img src="/static/placeholder.png" class="stream_thumbnail"></li>
-        <li class="thumbnail-element"><img src="/static/images/2023-06-17 14:07:30.449372.jpg" class="thumbnail"></li>
-        <li class="thumbnail-element"><img src="/static/images/2023-06-17 14:07:30.449372.jpg" class="thumbnail"></li>
-        <li class="thumbnail-element"><img src="/static/images/2023-06-17 14:07:30.449372.jpg" class="thumbnail"></li>
-        <li class="thumbnail-element"><img src="/static/images/2023-06-17 14:07:30.449372.jpg" class="thumbnail"></li>
-      </ul>-->
-    </div>
-    <div class="stream-container">
-          <img src="/video_feed" class="stream-frame">
-          <ul class="camera-control">
-              <li class="camera-control-element" id="capture"><img src="/static/control_icons/camera.svg" class="camera-control-button"></li>
-              <li class="camera-control-element" id="zoom_in"><img src="/static/control_icons/zoom_in.svg" class="camera-control-button"></li>
-              <li class="camera-control-element" id="zoom_out"><img src="/static/control_icons/zoom_out.svg" class="camera-control-button"></li>
-              <li class="camera-control-element"><img src="/static/control_icons/left.svg" class="camera-control-button"></li>
-              <li class="camera-control-element"><img src="/static/control_icons/right.svg" class="camera-control-button"></li>
-              <li class="camera-control-element"><img src="/static/control_icons/trash.svg" class="camera-control-button"></li>
-          </ul>
-    </div>
-    
-    
-
-
-
-
-
-
-
-    
-    
-    </div>  
-
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-
-    <script>
-      $(document).ready(function(){
-        const capture_url = window.location.origin + '/capture'
-        const zoom_in_url = window.location.origin + '/zoom_in'
-        const zoom_out_url = window.location.origin + '/zoom_out'
-
-        $.get('list_images', {}, function(result){
-              alert('Stored in: ' + result.data)
-              $('.thumbnails-container').append('<ul class="thumbnails-list"></ul>')
-              console.log(result.data)
-              $('.thumbnails-list').append('<li class="thumbnail-element thumbnail-element-stream"><img src="/static/placeholder.png" class="stream_thumbnail"></li>')
-
-              $.each(result.data, (index, item) => {
-                $('.thumbnails-list').append('<li class="thumbnail-element"><img src="'+ item +'" class="thumbnail"></li>')
-              });
-        })
-
-        $("#capture").on("click", function(){
-          console.log('here')
-          $.post(capture_url, {}, function(result){
-              alert('Stored in: ' + result.data)
-          })
-        });
-
-        $("#zoom_in").on("click", function(){
-          $.post(zoom_in_url, {}, function(result){
-             console.log(result.zoom)
-          })
-        });
-
-        $("#zoom_out").on("click", function(){
-          $.post(zoom_out_url, {}, function(result){
-             console.log(result.zoom)
-          })
-        });
->>>>>>> 7257167 (add app)
       });
 
-<<<<<<< HEAD
       $("#zoom_in").on("click", function(){
         $.post(zoom_in_url, {}, function(result){
            console.log(result.zoom)
         })
       });
-
       $("#zoom_out").on("click", function(){
         $.post(zoom_out_url, {}, function(result){
            console.log(result.zoom)
         })
       });
 
-
-
-
-
+      $("#delete").on("click", function(){
+        let img = $('.stream-frame').attr('src');
+        let url = '/delete'
+        console.log(img)
+        $.post(url, {'img':img}, function(result){
+          location.reload()
+        })
+      });
     });
   </script>
-
-
 </body>
-
 
 </html>
-
-=======
-  
-</body>
->>>>>>> 7257167 (add app)

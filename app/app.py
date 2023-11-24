@@ -4,7 +4,8 @@ import cv2
 from flask import Flask, Response, render_template, jsonify, request, make_response
 from cam import Camera
 import datetime as dt
-
+import logging
+from pathlib import Path
 
 app = Flask(__name__)
 
@@ -12,6 +13,12 @@ cam = Camera()
 
 parent_path = os.path.dirname(os.path.abspath(__file__))
 image_path = os.path.join(parent_path, 'static', 'images')
+
+logger = logging.getLogger('werkzeug') # grabs underlying WSGI logger
+handler = logging.FileHandler('test.log') # creates handler for the log file
+logger.addHandler(handler)
+
+logger.info('ParentPath' + parent_path)
 
 if not os.path.exists(image_path):
     os.mkdir(image_path)
@@ -43,24 +50,31 @@ def zoom_out():
     data = {'zoom':cam.zoom}
     return  jsonify(data)
 
+
 @app.route('/capture', methods=['POST'])
 def capture():
-
-
     path = os.path.join(image_path, str(dt.datetime.now()) + '.jpg')
     cam.capture(path)
     return  jsonify({'data': path})
 
+
 @app.route('/list_images', methods=['GET'])
 def list_images():
-    files = os.listdir(image_path)
+    #files = os.listdir(image_path)
+    files = [s for s in os.listdir(image_path) if os.path.isfile(os.path.join(image_path, s))]
+    files.sort(key=lambda s: os.path.getmtime(os.path.join(image_path, s)), reverse=True)
 
     files = [os.path.join('/static/images', i) for i in files]
-    print(files)
     data = {'data':files}
     return jsonify(data)
 
 
+@app.route('/delete', methods= ['POST'])
+def delete():
+    file = os.path.basename(request.form.get('img'))
+    path = os.path.join(image_path, file)
+    os.remove(path)
+    return  jsonify({'img': path})
 if __name__ == '__main__':
 
 

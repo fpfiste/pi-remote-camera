@@ -1,8 +1,3 @@
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 7257167 (add app)
 .content{
   width: 100vw;
   height: 100vh;
@@ -12,29 +7,22 @@
   background: #141414;
   padding: 50px;
 }
-
   
 .thumbnails-container{
   /*! width: 20vw; */
   /*! padding: 10px; */
   overflow:auto;
   padding-right: 10px;
-<<<<<<< HEAD
-  width: 400px;
-=======
-  max-width: 400px;
->>>>>>> 7257167 (add app)
+  width: 15vw;
+  height: 90vh;
 }
 
 .thumbnails-list{
   list-style:none;
   padding: 0px;
   /*! padding-right: 5px; */
-
 }
-
 .thumbnail-element{
-
   padding: 5px;
   text-align: center;
   vertical-align: center;
@@ -43,8 +31,7 @@
   justify-content: center;
   height: 300px;
 }
-
-.thumbnail-element-stream{
+#stream_thumbnail{
   background-color: lightgray;
   background-origin: content-box;
   padding: 5px;
@@ -55,11 +42,8 @@
   justify-content: center;
   height: 300px;
 }
-
-
 .stream_thumbnail {
   width: 20%;
-
 }
 .thumbnail {
   width: 100%;
@@ -67,56 +51,82 @@
   border-radius: 5px;
 }
 
-.stream-container{
+.thumbnail_active {
   width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  border: 2px solid;
+  border-color: red;
+}
+.stream-container{
+  width: 60vw;
+  height: 90vh;
   padding-left:10px;
-
-
   padding-right: 10px;
 }
 .stream-frame {
   height: 100%;
-
-  width: 95%;
+  width: 100%;
   border-radius: 5px;
   /*! rigth: 0; */
   float: right;
 }
 
+#controls-container {
+  width: 20vw;
+  height: 90vh;
+
+}
+
+.camera-control-button{
+  width:1vw;
+}
+
+label {
+  color:white;
+  margin-left: 20px;
+}
+
+#controls {
+  height: 45vh;
+}
+
+#target-sampler {
+  width: 20vw;
+  height: 45vh;
+}
+
+#target-canvas {
+  width: 20vw;
+  height: 45vh;
+
+}
+/*
 .camera-control{
   position: absolute;
   list-style: none;
-<<<<<<< HEAD
   bottom: 30px;
   right: 60px;
 
-=======
-  bottom: 30;
-  right: 60;
-  /*! margin-left: 10vw; */
-  top: 50;
->>>>>>> 7257167 (add app)
 }
 
 .camera-control-element{
   width: 100px;
   height: 100px;
-  /*! border-radius: 45px; */
+
   opacity: 0.5;
   display: flex;
   justify-content: center;
-  /*! background: rgb(255,255,255); */
-  /*! background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 53%, rgba(255, 255, 255, 0) 81%, rgba(255,255,255,0) 100%); */
+  background: rgb(255,255,255); 
+  background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 53%, rgba(255, 255, 255, 0) 81%, rgba(255,255,255,0) 100%);
   padding: 10px;
   background-origin: content-box;
   background-repeat: no-repeat;
 }
-
 .camera-control-button{
   width:40%;
 }
-
 .camera-control-element:hover{
   background:white;
-
 }
+*/
